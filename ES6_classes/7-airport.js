@@ -1,31 +1,31 @@
 /* eslint-disable */
 export default class Airport {
     constructor(name, code) {
-        if (typeof name !== 'string' || typeof code !== 'string') {
-            throw new TypeError('Name and code must be strings');
-        }
-
         this._name = name;
         this._code = code;
-    }
+        }
 
-    // Getter for name
-    get name() {
+        get name() {
         return this._name;
-    }
+        }
 
-    // Getter for code
-    get code() {
+        get code() {
         return this._code;
-    }
+        }
 
-    // Custom toString method
-    toString() {
-        return this._code;
-    }
+        set name(name) {
+        this._name = name;
+        }
+        
+        set code(code) {
+        this._code = code;
+        }
 
-    // Customizing the toStringTag property
-    get [Symbol.toStringTag]() {
+        get [Symbol.toStringTag]() {
         return this._code;
+        }
+
+        toString() {
+        return `[object ${this._code}]`;
+        }
     }
-}
