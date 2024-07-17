@@ -19,8 +19,13 @@ export default class Airport {
         return this._code;
     }
 
-    // Overriding the default string description
+    // Custom toString method
     toString() {
+        return this._code;
+    }
+
+    // Customizing the toStringTag property
+    get [Symbol.toStringTag]() {
         return this._code;
     }
 }
