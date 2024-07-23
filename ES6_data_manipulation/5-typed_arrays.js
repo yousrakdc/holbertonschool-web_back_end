@@ -1,5 +1,5 @@
 /* eslint-disable */
-export default function createInt8TypeArray(length, postion, value) {
+export default function createInt8TypeArray(length, position, value) {
   // Create a new ArrayBuffer with the given length
   const buffer = new ArrayBuffer(length);
 
