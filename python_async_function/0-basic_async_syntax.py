@@ -10,11 +10,7 @@ import random
 
 
 async def wait_random(max_delay: int = 10) -> float:
-    # Generate a random float between 0 and max_delay
+    """Generate a random float between 0 and max_delay"""
     delay = random.random() * max_delay
-
-    # Asynchronously wait for the generated delay
     await asyncio.sleep(delay)
-
-    # Return the delay
     return delay
