@@ -4,9 +4,8 @@ from pymongo import MongoClient
 
 
 def update_topics(mongo_collection, name, topics):
-    """return what's asked"""
-    filter_query = {"name": name}
-    update_operation = { '$set': {"topics": topics} }
-    result = mongo_collection.update_one(filter_query, update_operation)
-    
-    return result.matched_count, result.modified_count
+    """results in changing all topics of a school"""
+    mongo_collection.update_many(
+        {"name": name},
+        {"$set": {"topics": topics}}
+    )
