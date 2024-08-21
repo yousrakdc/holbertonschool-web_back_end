@@ -6,7 +6,7 @@ def nginx_stats():
     """
     Prints statistics about the Nginx logs stored in MongoDB.
     """
-    client = MongoClient('mongodb://localhost:27017/')
+    client = MongoClient('mongodb://localhost:27018/')
 
     db = client['logs']
     collection = db['nginx']
