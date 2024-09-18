@@ -1,12 +1,12 @@
-console.log('Welcome to Holberton School, what is your name?');
+const std = require('process');
 
-process.stdin.on('data', (data) => {
-  const name = data.toString().trim();
-  console.log(`Your name is: ${name}`);
-  
-  process.exit();
+std.stdout.write('Welcome to Holberton School, what is your name?\n');
+std.stdin.on('readable', () => {
+  const name = std.stdin.read();
+  if (name) {
+    std.stdout.write(`Your name is: ${name}`);
+  }
 });
-
-process.on('exit', () => {
+std.stdin.on('end', () => {
   console.log('This important software is now closing');
 });
