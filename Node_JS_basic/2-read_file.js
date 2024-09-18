@@ -9,36 +9,37 @@ function countStudents(path) {
       throw new Error('No students found in the database');
     }
 
-    const header = lines.shift();
+    lines.shift();
 
     const fields = {};
+    let totalStudents = 0;
 
-    for (const line of lines) {
-      if (line.trim() === '') {
-        continue;
+    lines.forEach((line) => {
+      if (line.trim() !== '') {
+        const student = line.split(',');
+        const firstName = student[0];
+        const field = student[3];
+
+        if (!fields[field]) {
+          fields[field] = {
+            count: 0,
+            names: [],
+          };
+        }
+
+        fields[field].count += 1;
+        fields[field].names.push(firstName);
+        totalStudents += 1;
       }
+    });
 
-      const student = line.split(',');
-      const firstName = student[0];
-      const field = student[3];
-
-      if (!fields[field]) {
-        fields[field] = {
-          count: 0,
-          names: [],
-        };
-      }
-
-      fields[field].count += 1;
-      fields[field].names.push(firstName);
-    }
-
-    const totalStudents = lines.length;
     console.log(`Number of students: ${totalStudents}`);
 
     for (const field in fields) {
-      const { count, names } = fields[field];
-      console.log(`Number of students in ${field}: ${count}. List: ${names.join(', ')}`);
+      if (Object.hasOwn(fields, field)) {
+        const { count, names } = fields[field];
+        console.log(`Number of students in ${field}: ${count}. List: ${names.join(', ')}`);
+      }
     }
   } catch (err) {
     throw new Error('Cannot load the database');
