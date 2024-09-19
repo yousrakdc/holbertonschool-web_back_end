@@ -1,9 +1,9 @@
-import { readDatabase } from '../utils.js';
+import { readDatabase } from '../utils';
 
 export default class StudentsController {
   static async getAllStudents(req, res) {
     try {
-      const fields = await readDatabase(req.app.get('databasePath'));
+      const fields = await readDatabase(req.app.get('database'));
       let output = 'This is the list of our students\n';
 
       const sortedFields = Object.keys(fields).sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
@@ -34,9 +34,9 @@ export default class StudentsController {
         return res.status(500).send('Cannot load the database');
       }
 
-      res.status(200).send(`List: ${names.join(', ')}`);
+      return res.status(200).send(`List: ${names.join(', ')}`);
     } catch (error) {
-      res.status(500).send('Cannot load the database');
+      return res.status(500).send('Cannot load the database');
     }
   }
 }

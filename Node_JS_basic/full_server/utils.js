@@ -1,6 +1,6 @@
 import fs from 'fs/promises';
 
-export async function readDatabase(filePath) {
+export default async function readDatabase(filePath) {
   try {
     const data = await fs.readFile(filePath, 'utf8');
     const lines = data.trim().split('\n');
@@ -13,14 +13,16 @@ export async function readDatabase(filePath) {
     lines.shift();
 
     for (const line of lines) {
-      if (line.trim() === '') continue;
+      const trimmedLine = line.trim();
 
-      const [firstName, , , field] = line.split(',');
+      if (trimmedLine !== '') {
+        const [firstName, , , field] = trimmedLine.split(',');
 
-      if (!fields[field]) {
-        fields[field] = [];
+        if (!fields[field]) {
+          fields[field] = [];
+        }
+        fields[field].push(firstName);
       }
-      fields[field].push(firstName);
     }
 
     return fields;
