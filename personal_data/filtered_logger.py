@@ -107,6 +107,8 @@ def get_db() -> MySQLConnection:
 
     Returns:
         A MySQLConnection object connected to the target database.
+        The caller is responsible for closing the connection by calling
+        .close() on the returned object when it is no longer needed.
     """
     username = os.getenv("PERSONAL_DATA_DB_USERNAME", "root")
     password = os.getenv("PERSONAL_DATA_DB_PASSWORD", "")
