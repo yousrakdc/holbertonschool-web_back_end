@@ -3,7 +3,7 @@
 import re
 from typing import List
 
-
+#This module provides functionality to filter sensitive data from log messages.
 def filter_datum(fields: List[str], redaction: str,
                  message: str, separator: str) -> str:
     pattern = f'({"|".join(fields)})=([^{separator}]*)'
