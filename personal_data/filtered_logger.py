@@ -1,9 +1,13 @@
 #!/usr/bin/env python3
 """Module for filtering sensitive data from log messages."""
 
+import os
 import re
 import logging
 from typing import List, Tuple
+
+import mysql.connector
+from mysql.connector.connection import MySQLConnection
 
 
 # Fields from user_data.csv considered as important PII.
@@ -90,3 +94,28 @@ def get_logger() -> logging.Logger:
     logger.addHandler(handler)
 
     return logger
+
+
+def get_db() -> MySQLConnection:
+    """Return a connector to the holberton MySQL database.
+
+    Reads database credentials from the following environment variables:
+        PERSONAL_DATA_DB_USERNAME (default: "root")
+        PERSONAL_DATA_DB_PASSWORD (default: "")
+        PERSONAL_DATA_DB_HOST     (default: "localhost")
+        PERSONAL_DATA_DB_NAME
+
+    Returns:
+        A MySQLConnection object connected to the target database.
+    """
+    username = os.getenv("PERSONAL_DATA_DB_USERNAME", "root")
+    password = os.getenv("PERSONAL_DATA_DB_PASSWORD", "")
+    host = os.getenv("PERSONAL_DATA_DB_HOST", "localhost")
+    db_name = os.getenv("PERSONAL_DATA_DB_NAME")
+
+    return mysql.connector.connect(
+        user=username,
+        password=password,
+        host=host,
+        database=db_name
+    )
