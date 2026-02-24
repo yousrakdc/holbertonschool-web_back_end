@@ -22,7 +22,7 @@ def filter_datum(fields: List[str], redaction: str,
         field values replaced by the redaction string.
 
     Example:
-        >>> filter_datum(["password"], "***", 
+        >>> filter_datum(["password"], "***",
         user=John;password=secret;", ";")
         'user=John;password=***;'
     """
@@ -58,5 +58,7 @@ class RedactingFormatter(logging.Formatter):
             The formatted log string with sensitive fields obfuscated.
         """
         record.msg = filter_datum(self.fields,
-                                  self.REDACTION, record.getMessage(), self.SEPARATOR)
+                                  self.REDACTION,
+                                  record.getMessage(),
+                                  self.SEPARATOR)
         return super(RedactingFormatter, self).format(record)
