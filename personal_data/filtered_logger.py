@@ -18,10 +18,12 @@ def filter_datum(fields: List[str], redaction: str,
         separator: The character separating fields in the log line.
 
     Returns:
-        The log message with sensitive field values replaced by the redaction string.
+        The log message with sensitive
+        field values replaced by the redaction string.
 
     Example:
-        >>> filter_datum(["password"], "***", "user=John;password=secret;", ";")
+        >>> filter_datum(["password"], "***", 
+        user=John;password=secret;", ";")
         'user=John;password=***;'
     """
     pattern = f'({"|".join(fields)})=([^{separator}]*)'
@@ -29,7 +31,8 @@ def filter_datum(fields: List[str], redaction: str,
 
 
 class RedactingFormatter(logging.Formatter):
-    """Redacting Formatter class that obfuscates sensitive fields in log records."""
+    """Redacting Formatter class that obfuscates
+    sensitive fields in log records."""
 
     REDACTION = "***"
     FORMAT = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
@@ -39,7 +42,8 @@ class RedactingFormatter(logging.Formatter):
         """Initialize the formatter with a list of fields to redact.
 
         Args:
-            fields: A list of field names whose values will be obfuscated in logs.
+            fields: A list of field names whose values
+            will be obfuscated in logs.
         """
         super(RedactingFormatter, self).__init__(self.FORMAT)
         self.fields = fields
@@ -53,5 +57,6 @@ class RedactingFormatter(logging.Formatter):
         Returns:
             The formatted log string with sensitive fields obfuscated.
         """
-        record.msg = filter_datum(self.fields, self.REDACTION, record.getMessage(), self.SEPARATOR)
+        record.msg = filter_datum(self.fields,
+                                  self.REDACTION, record.getMessage(), self.SEPARATOR)
         return super(RedactingFormatter, self).format(record)
