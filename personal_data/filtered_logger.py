@@ -6,6 +6,10 @@ import re
 import logging
 from typing import List, Tuple
 
+# This file is part of the Holberton School project.
+# It provides functionality to redact personally
+# identifiable information (PII)
+# from log messages, specifically those related to user data.
 import mysql.connector
 from mysql.connector.connection import MySQLConnection
 
