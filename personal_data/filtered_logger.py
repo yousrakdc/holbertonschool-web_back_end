@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""This module provides functionality to 
+"""This module provides functionality to
 filter sensitive data from log messages."""
 
 import re
@@ -17,7 +17,7 @@ def filter_datum(fields: List[str], redaction: str,
         separator: The character separating fields in the log line.
 
     Returns:
-        The log message with sensitive field values 
+        The log message with sensitive field values
         replaced by the redaction string.
 
     Example:
