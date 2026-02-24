@@ -1,14 +1,23 @@
 #!/usr/bin/env python3
-"""This module provides functionality to filter
-sensitive data from log messages."""
+"""Module for filtering sensitive data from log messages."""
 
 import re
 import logging
-from typing import List
+from typing import List, Tuple
 
 
-def filter_datum(fields: List[str], redaction: str,
-                 message: str, separator: str) -> str:
+# Fields from user_data.csv considered as important PII.
+# user_data.csv fields:
+# name, email, phone, ssn, password, ip, last_login, user_agent
+PII_FIELDS: Tuple[str, ...] = ("email", "phone", "ssn", "password", "name")
+
+
+def filter_datum(
+    fields: List[str],
+    redaction: str,
+    message: str,
+    separator: str
+) -> str:
     """Return a log message with specified fields obfuscated.
 
     Args:
@@ -18,12 +27,11 @@ def filter_datum(fields: List[str], redaction: str,
         separator: The character separating fields in the log line.
 
     Returns:
-        The log message with sensitive
-        field values replaced by the redaction string.
+        The log message with sensitive field values replaced by
+        the redaction string.
 
     Example:
-        >>> filter_datum(["password"], "***",
-        user=John;password=secret;", ";")
+        >>> filter_datum(["password"], "***", "user=John;password=s;", ";")
         'user=John;password=***;'
     """
     pattern = f'({"|".join(fields)})=([^{separator}]*)'
@@ -31,8 +39,7 @@ def filter_datum(fields: List[str], redaction: str,
 
 
 class RedactingFormatter(logging.Formatter):
-    """Redacting Formatter class that obfuscates
-    sensitive fields in log records."""
+    """Redacting Formatter class that obfuscates sensitive fields."""
 
     REDACTION = "***"
     FORMAT = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
@@ -42,8 +49,8 @@ class RedactingFormatter(logging.Formatter):
         """Initialize the formatter with a list of fields to redact.
 
         Args:
-            fields: A list of field names whose values
-            will be obfuscated in logs.
+            fields: A list of field names whose values will be
+                obfuscated in logs.
         """
         super(RedactingFormatter, self).__init__(self.FORMAT)
         self.fields = fields
@@ -57,8 +64,29 @@ class RedactingFormatter(logging.Formatter):
         Returns:
             The formatted log string with sensitive fields obfuscated.
         """
-        record.msg = filter_datum(self.fields,
-                                  self.REDACTION,
-                                  record.getMessage(),
-                                  self.SEPARATOR)
+        record.msg = filter_datum(
+            self.fields, self.REDACTION,
+            record.getMessage(), self.SEPARATOR
+        )
         return super(RedactingFormatter, self).format(record)
+
+
+def get_logger() -> logging.Logger:
+    """Create and return a logger configured to redact PII fields.
+
+    The logger is named 'user_data', logs up to INFO level only,
+    does not propagate to parent loggers, and uses a
+    RedactingFormatter on its StreamHandler to obfuscate PII_FIELDS.
+
+    Returns:
+        A configured logging.Logger instance.
+    """
+    logger = logging.getLogger("user_data")
+    logger.setLevel(logging.INFO)
+    logger.propagate = False
+
+    handler = logging.StreamHandler()
+    handler.setFormatter(RedactingFormatter(fields=list(PII_FIELDS)))
+    logger.addHandler(handler)
+
+    return logger
