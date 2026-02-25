@@ -10,6 +10,8 @@ from models.user import User
 
 
 """BasicAuth class"""
+
+
 class BasicAuth(Auth):
     """ BasicAuth class
     """
