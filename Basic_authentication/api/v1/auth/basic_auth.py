@@ -2,6 +2,7 @@
 """
 Basic authentication module
 """
+
 from typing import List, TypeVar
 from flask import request
 
