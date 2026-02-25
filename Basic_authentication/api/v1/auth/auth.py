@@ -2,7 +2,8 @@
 from typing import List, TypeVar
 from flask import request
 
-
+"""Auth class for handling authentication methods
+"""
 class Auth:
 	"""Auth class for handling authentication methods"""
 	def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
