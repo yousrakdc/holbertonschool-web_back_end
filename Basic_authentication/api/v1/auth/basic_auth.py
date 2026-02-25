@@ -59,7 +59,7 @@ class BasicAuth(Auth):
         return email, password
 
     def user_object_from_credentials(
-        self, user_email: str, user_pwd: str) -> TypeVar('User'):
+            self, user_email: str, user_pwd: str) -> TypeVar('User'):
         """ User object from credentials
         """
         if (user_email is None or type(user_email) is not str or
