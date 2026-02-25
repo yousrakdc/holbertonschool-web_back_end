@@ -43,4 +43,3 @@ class BasicAuth(Auth):
             return decoded_str
         except Exception:
             return None
-
