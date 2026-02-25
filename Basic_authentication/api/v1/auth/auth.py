@@ -1,20 +1,42 @@
 #!/usr/bin/env python3
+""" Module of Auth views
+"""
+
 from typing import List, TypeVar
 from flask import request
 
-"""Auth class for handling authentication methods
-"""
+
 class Auth:
-	"""Auth class for handling authentication methods"""
-	def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
-		"""Returns False. path and excluded_paths will be used later."""
-		return False
+    """ Auth class
+    """
+    def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
+        """ Require auth
+        """
+        if path is None:
+            return True
 
-	def authorization_header(self, request=None) -> str:
-		"""Returns None. request will be the Flask request object."""
-		return None
+        if excluded_paths is None or len(excluded_paths) == 0:
+            return True
 
-	def current_user(self, request=None) -> TypeVar('User'):
-		"""Returns None. request will be the Flask request object."""
-		return None
+        path_slash = path if path.endswith('/') else path + '/'
 
+        if path_slash in excluded_paths:
+            return False
+
+        return True
+
+    def authorization_header(self, request=None) -> str:
+        """ Authorization header
+        """
+        if request is None:
+            return None
+
+        if request.headers.get('Authorization') is None:
+            return None
+
+        return request.headers.get('Authorization')
+
+    def current_user(self, request=None) -> TypeVar('User'):
+        """ Current user
+        """
+        return None
