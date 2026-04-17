@@ -8,7 +8,7 @@ from user_authentication_service.auth import Auth
 AUTH = Auth()
 
 app = Flask(__name__)
-
+app.config["JSON_SORT_KEYS"] = False
 
 @app.route("/", methods=["GET"])
 def index():
