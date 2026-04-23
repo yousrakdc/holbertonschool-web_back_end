@@ -8,6 +8,7 @@ from flask import Flask, render_template
 app = Flask(__name__)
 @app.route('/')
 
+
 def index():
     """ Route for the index page
     """
@@ -15,4 +16,3 @@ def index():
 
 if __name__ == "__main__":
     app.run()
-    
