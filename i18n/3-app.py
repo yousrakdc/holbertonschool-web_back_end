@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-"""Basic Flask app with Babel, locale selection, and parametrized templates"""
+"""Basic Flask app with Babel, locale selection, and parametrized templates
+Holberton project: i18n
+"""
 
 from flask import Flask, render_template, request
 from flask_babel import Babel, _
@@ -24,7 +26,11 @@ def get_locale():
 
 babel = Babel()
 babel.init_app(app, locale_selector=get_locale)
-"""i need to use the _ function to mark strings for translation"""
+
+
+def gettext(message_id: str) -> str:
+    """Return the localized string for the given message identifier."""
+    return flask_babel.gettext(message_id)
 
 
 @app.route("/")
