@@ -25,8 +25,8 @@ msgid "not_logged_in"
 msgstr "You are not logged in."
 
 msgid "home_title"
-msgstr "Welcome to Holberton"
+msgstr "Home"
 
 msgid "home_header"
-msgstr "Hello world!"
+msgstr "Welcome"
 
