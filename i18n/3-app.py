@@ -24,11 +24,12 @@ def get_locale():
 
 babel = Babel()
 babel.init_app(app, locale_selector=get_locale)
+"""i need to use the _ function to mark strings for translation"""
 
 
 @app.route("/")
 def index():
-    """Route for the home page"""
+    """Route for the home page like before but with a parameterized template"""
     return render_template("3-index.html")
 
 
