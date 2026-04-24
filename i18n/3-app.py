@@ -14,6 +14,7 @@ class Config:
 
 app = Flask(__name__)
 app.config.from_object(Config)
+"""Initialize Babel with the Flask app"""
 
 
 def get_locale():
