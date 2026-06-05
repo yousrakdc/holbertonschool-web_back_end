@@ -140,4 +140,3 @@ class Cache:
             The data as an integer, or None if key doesn't exist
         """
         return self.get(key, fn=int)
-    
