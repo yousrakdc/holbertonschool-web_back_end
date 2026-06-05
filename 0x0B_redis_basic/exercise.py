@@ -62,50 +62,16 @@ def call_history(method: Callable) -> Callable:
 
 
 def replay(method: Callable) -> None:
-    """
-    Display the history of calls of a particular function from Redis.
-
-    Args:
-        method: The method to replay the history for
-    """
-    # Get the instance and Redis client from the bound method
-    instance = method.__self__
-    redis_client = instance._redis
-
-    # Get the original method if wrapped by decorators
-    original_method = method
-    while hasattr(original_method, '__wrapped__'):
-        original_method = original_method.__wrapped__
-
-    qualname = original_method.__qualname__
-
-    # Get input and output keys
-    input_key = "{}:inputs".format(qualname)
-    output_key = "{}:outputs".format(qualname)
-
-    # Retrieve all inputs and outputs using lrange
-    inputs = redis_client.lrange(input_key, 0, -1)
-    outputs = redis_client.lrange(output_key, 0, -1)
-
-    # Get the count of calls
-    count = len(inputs)
-
-    # Display the header
-    print("{} was called {} times:".format(qualname, count))
-
-    # Display each call using zip to loop over inputs and outputs
-    for input_val, output_val in zip(inputs, outputs):
-        # Decode bytes to string for display
-        if isinstance(input_val, bytes):
-            input_str = input_val.decode('utf-8')
-        else:
-            input_str = input_val
-        if isinstance(output_val, bytes):
-            output_str = output_val.decode('utf-8')
-        else:
-            output_str = output_val
-        print("{}(*{}) -> {}".format(qualname, input_str, output_str))
-
+    """Display the history of calls of a particular function."""
+    name = method.__qualname__
+    cache = method.__self__._redis
+    count = cache.get(name).decode("utf-8")
+    print("{} was called {} times:".format(name, count))
+    inputs = cache.lrange("{}:inputs".format(name), 0, -1)
+    outputs = cache.lrange("{}:outputs".format(name), 0, -1)
+    for inp, out in zip(inputs, outputs):
+        print("{}(*{}) -> {}".format(
+            name, inp.decode("utf-8"), out.decode("utf-8")))
 
 class Cache:
     """Cache class that provides methods to store and retrieve data."""
