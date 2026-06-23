@@ -1,0 +1,17 @@
+{
+    "name": "task_0",
+    "version": "1.0.0",
+    "description": "Unit tests with Mocha",
+    "main": "index.js",
+    "scripts": {
+        "test": "mocha ./*.test.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "chai": "^6.2.1",
+        "mocha": "^10.2.0",
+        "sinon": "^21.0.0"
+    }
+}
